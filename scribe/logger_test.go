@@ -2,6 +2,7 @@ package scribe_test
 
 import (
 	"bytes"
+	"fmt"
 	"testing"
 
 	"github.com/paketo-buildpacks/packit/v2/scribe"
@@ -29,11 +30,21 @@ func testLogger(t *testing.T, context spec.G, it spec.S) {
 			logger.Title("some-%s", "title")
 			Expect(buffer.String()).To(Equal("some-title\n"))
 		})
+
+		it("can be used as a writer", func() {
+			fmt.Fprintln(logger.Title, "some-title")
+			Expect(buffer.String()).To(Equal("some-title\n"))
+		})
 	})
 
 	context("Process", func() {
 		it("prints the output with one level of indentation", func() {
 			logger.Process("some-%s", "process")
+			Expect(buffer.String()).To(Equal("  some-process\n"))
+		})
+
+		it("can be used as a writer", func() {
+			fmt.Fprintln(logger.Process, "some-process")
 			Expect(buffer.String()).To(Equal("  some-process\n"))
 		})
 	})
@@ -43,11 +54,21 @@ func testLogger(t *testing.T, context spec.G, it spec.S) {
 			logger.Subprocess("some-%s", "subprocess")
 			Expect(buffer.String()).To(Equal("    some-subprocess\n"))
 		})
+
+		it("can be used as a writer", func() {
+			fmt.Fprintln(logger.Subprocess, "some-subprocess")
+			Expect(buffer.String()).To(Equal("    some-subprocess\n"))
+		})
 	})
 
 	context("Action", func() {
 		it("prints the output with three levels of indentation", func() {
 			logger.Action("some-%s", "action")
+			Expect(buffer.String()).To(Equal("      some-action\n"))
+		})
+
+		it("can be used as a writer", func() {
+			fmt.Fprintln(logger.Action, "some-action")
 			Expect(buffer.String()).To(Equal("      some-action\n"))
 		})
 	})
@@ -57,11 +78,21 @@ func testLogger(t *testing.T, context spec.G, it spec.S) {
 			logger.Detail("some-%s", "detail")
 			Expect(buffer.String()).To(Equal("        some-detail\n"))
 		})
+
+		it("can be used as a writer", func() {
+			fmt.Fprintln(logger.Detail, "some-detail")
+			Expect(buffer.String()).To(Equal("        some-detail\n"))
+		})
 	})
 
 	context("Subdetail", func() {
 		it("prints the output with five levels of indentation", func() {
 			logger.Subdetail("some-%s", "subdetail")
+			Expect(buffer.String()).To(Equal("          some-subdetail\n"))
+		})
+
+		it("can be used as a writer", func() {
+			fmt.Fprintln(logger.Subdetail, "some-subdetail")
 			Expect(buffer.String()).To(Equal("          some-subdetail\n"))
 		})
 	})
