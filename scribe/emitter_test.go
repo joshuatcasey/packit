@@ -431,4 +431,37 @@ func testEmitter(t *testing.T, context spec.G, it spec.S) {
 			})
 		})
 	})
+
+	context("LayerTypes", func() {
+		var layer packit.Layer
+
+		it.Before(func() {
+			layer = packit.Layer{
+				Name:   "layer-name",
+				Build:  true,
+				Launch: false,
+				Cache:  true,
+			}
+		})
+
+		context("when DEBUG is not set", func() {
+			it("logs nothing", func() {
+				emitter.LayerTypes(layer)
+				Expect(buffer.String()).To(Equal(""))
+			})
+		})
+
+		context("when DEBUG is set", func() {
+			it.Before(func() {
+				emitter = emitter.WithLevel("DEBUG")
+			})
+
+			it("logs information about each of the layer types", func() {
+				emitter.LayerTypes(layer)
+				Expect(buffer.String()).To(Equal(`  Setting layer types for layer-name: build=[true], launch=[false], cache=[true]
+    For more information, see https://github.com/buildpacks/spec/blob/main/buildpack.md#layer-types
+`))
+			})
+		})
+	})
 }

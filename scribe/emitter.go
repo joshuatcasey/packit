@@ -205,11 +205,21 @@ func (e Emitter) GeneratingSBOM(path string) {
 
 // FormattingSBOM takes a list of SBOM formats and logs that an SBOM is
 // generated in each format. Note: Only logs when the emitter is in DEBUG
-// mode.
+// mode.Writing SBOM
 func (e Emitter) FormattingSBOM(formats ...string) {
 	e.Debug.Process("Writing SBOM in the following format(s):")
 	for _, f := range formats {
 		e.Debug.Subprocess(f)
 	}
 	e.Debug.Break()
+}
+
+// LayerTypes will log the name and types (build, launch, cache) of the layer
+func (e Emitter) LayerTypes(layer packit.Layer) {
+	e.Debug.Process("Setting layer types for %s: build=[%t], launch=[%t], cache=[%t]",
+		layer.Name,
+		layer.Build,
+		layer.Launch,
+		layer.Cache)
+	e.Debug.Subprocess("For more information, see https://github.com/buildpacks/spec/blob/main/buildpack.md#layer-types")
 }
