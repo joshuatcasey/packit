@@ -11,5 +11,5 @@ require (
 	github.com/onsi/gomega v1.18.1
 	github.com/pelletier/go-toml v1.9.4
 	github.com/sclevine/spec v1.4.0
-	github.com/ulikunitz/xz v0.5.10
+	github.com/ulikunitz/xz v0.5.11
 )
